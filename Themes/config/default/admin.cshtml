@@ -1,0 +1,54 @@
+@inherits NBrightBuy.render.NBrightBuyRazorTokens<NBrightRazor>
+@using DotNetNuke.Common
+@using DotNetNuke.Entities.Users
+@using NBrightDNN
+@using Nevoweb.DNN.NBrightBuy.Components
+@using NBrightCore.common
+
+@AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
+@AddMetaData("resourcepath", "/DesktopModules/NBright/OS_CartReview/App_LocalResources/")
+
+
+<!-- div section to pass param data to the server side ajax functions -->
+<span id="selectparams">
+    <input id="userid" type="hidden" value="@UserController.Instance.GetCurrentUserInfo().UserID" />
+    <input id="razortemplate" type="hidden" value="" />
+    <input id="themefolder" type="hidden" value="config" />
+    <input id='editlang' type='hidden' value='@Model.Lang' /> <!-- get the current culture and pass to the ajax server side, so it knows what language is -->
+    <input id="uilang" type="hidden" value="@Utils.GetCurrentCulture()" />
+    <input id="nextlang" type="hidden" value="@Model.Lang" />
+    <input id="pagesize" type="hidden" value="20" />
+    <input id="pagenumber" type="hidden" value="1" />
+    <input id="searchtext" type="hidden" value="" />
+    <input id="selecteditemid" type="hidden" value="" />
+    <input id="selecteduserid" type="hidden" value="" />
+    <input id="emailtype" type="hidden" value="" />
+    <input id="emailsubject" type="hidden" value="" />
+    <input id="emailmessage" type="hidden" value="" />
+    <input id="typecode" type="hidden" value="CART"></input> <!-- used as selected edit itemid -->
+    <input id="selectedclientid" type="hidden" value=""></input>
+</span>
+
+
+
+<input id="deletemsg" type="hidden" value="@ResourceKey("Admin.deletemsg")"></input> <!-- used for prompt on delete -->
+<div id="nbsnotify"></div>
+<div id="loader" class="processing" style="display:none;">@ResourceKey("General.ProcessingDiv")</div>
+
+<div id="pageactionssource">
+    <!-- Page actions are moved into header bar - also exist at page bottom-->
+    <div class="col-xs-9 col-sm-9">
+        <a href="#" class="show-sidebar">
+            <i class="fa fa-bars"></i>
+        </a>
+        <div class="actionbuttonwrapper">
+            <button id="cmddelete" type="button" class="btn btn-danger" style="display: none;">@ResourceKey("General.cmdDeleteButton")</button>
+            <button id="cmdreturn" type="button" class="btn btn-default" style="display: none;">@ResourceKey("General.cmdReturnButton")</button>
+        </div>
+    </div>
+    <div class="col-xs-3 col-sm-3 top-panel-right">
+        @EditCultureSelect("editlanguage", "")
+    </div>
+</div>
+<br />
+<div id="editdata"></div>
