@@ -101,7 +101,7 @@ namespace OpenStore.Providers.OS_CartReview
             else
             {
                 var filter = "";
-                var searchText = ajaxInfo.GetXmlProperty("genxml/hidden/searchtext"); ;
+                var searchText = ajaxInfo.GetXmlProperty("genxml/hidden/searchtext");
                 if (searchText != "")
                 {
                     filter += " and (    (([xmldata].value('(genxml/billaddress/genxml/textbox/firstname)[1]', 'nvarchar(max)') like '%" + searchText + "%' collate sql_latin1_general_cp1_ci_ai ))";
@@ -120,9 +120,24 @@ namespace OpenStore.Providers.OS_CartReview
                     filter += " or (([xmldata].value('(genxml/ordernumber)[1]', 'nvarchar(max)') like '%" + searchText + "%' collate sql_latin1_general_cp1_ci_ai ))  ) ";
                 }
 
+                var pagenumber = ajaxInfo.GetXmlPropertyInt("genxml/hidden/pagenumber");
+                var pagesize = ajaxInfo.GetXmlPropertyInt("genxml/hidden/pagesize");
+
+                if (pagenumber == 0) pagenumber = 1;
+                if (pagesize == 0) pagesize = 20;
+
+                // get only entity type required
+                var recordcount = objCtrl.GetListCount(PortalSettings.Current.PortalId, -1, typeCode, filter);
+
                 // Return list of items
-                var l = objCtrl.GetList(PortalSettings.Current.PortalId, Convert.ToInt32(moduleid), typeCode, filter, " order by NB1.ModifiedDate DESC ", 0, 0, 0, 0, editlang);
-                strOut = NBrightBuyUtils.RazorTemplRenderList("datalist.cshtml", Convert.ToInt32(moduleid), editlang, l, templateControl, "config", editlang, StoreSettings.Current.Settings());
+                var l = objCtrl.GetList(PortalSettings.Current.PortalId, Convert.ToInt32(moduleid), typeCode, filter, " order by NB1.ModifiedDate DESC ", 0, pagenumber, pagesize, recordcount, editlang);
+                strOut = NBrightBuyUtils.RazorTemplRenderList("datalist.cshtml", Convert.ToInt32(moduleid), editlang + pagenumber, l, templateControl, "config", editlang, StoreSettings.Current.Settings());
+
+                if (recordcount > pagesize)
+                {
+                    var pg = new NBrightCore.controls.PagingCtrl();
+                    strOut += pg.RenderPager(recordcount, pagesize, pagenumber);
+                }
             }
 
             return strOut;

@@ -4,9 +4,9 @@
   </hidden>
   <textbox>
     <ctrl update="save">os_cartreview</ctrl>
-    <name update="save">OS_CartReview</name>
+    <name update="save">Cart Review</name>
     <icon update="save" />
-    <group update="save">Admin</group>
+    <group update="save">Sales</group>
     <path update="save">/DesktopModules/NBright/OS_CartReview/Admin.ascx</path>
     <help update="save" />
     <description update="save" />
@@ -18,7 +18,7 @@
   <checkboxlist>
     <securityroles update="save">
       <chk value="True" data="Administrators">Administrators</chk>
-      <chk value="False" data="Manager">Manager</chk>
+      <chk value="True" data="Manager">Manager</chk>
       <chk value="False" data="Editor">Editor</chk>
       <chk value="False" data="ClientEditor">ClientEditor</chk>
     </securityroles>

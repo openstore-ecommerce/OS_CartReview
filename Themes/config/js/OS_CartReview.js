@@ -62,6 +62,13 @@ function nbxgetCompleted(e) {
             nbxget('os_cartreview_getdata', '#selectparams', '#editdata');
         });
 
+        $('.cmdPg').unbind("click");
+        $('.cmdPg').click(function () {
+            $('.processing').show();
+            $('#pagenumber').val($(this).attr('pagenumber'));
+            nbxget('os_cartreview_getdata', '#selectparams', '#editdata');
+        });
+
     }
 
     // check if we are displaying a list or the detail and do processing.
